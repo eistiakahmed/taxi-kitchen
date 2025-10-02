@@ -2,6 +2,7 @@
 import './App.css'
 import Heading from './Components/Header/Heading'
 import Navbar from './Components/Navbar/Navbar'
+import OrderCards from './Components/OrdersCard/OrderCards'
 import States from './Components/States/States'
 
 function App() {
@@ -13,12 +14,16 @@ function App() {
       <Navbar />
     </header>
 
-    <section>
+    <section className=''>
       <Heading>Kitchen Room</Heading>
     </section>
 
-    <section>
-      <States></States>
+    
+
+    <section className=''>
+   <div className="w-11/12 mx-auto py-12 ">
+     <OrderCards></OrderCards>
+   </div>
     </section>
     
     </>
@@ -26,3 +31,5 @@ function App() {
 }
 
 export default App
+
+
