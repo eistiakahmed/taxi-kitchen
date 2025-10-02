@@ -1,19 +1,24 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 import OrderCard from '../OrderCard/OrderCard';
-
+import { GridLoader, PacmanLoader } from 'react-spinners';
 
 const orderPromise = async () => {
   const res = await fetch('/orders.json');
   return res.json();
 };
+
 const OrderCards = () => {
-  const data = orderPromise();
-  const [orderRes, SetOrderRes] = useState(data)
-  console.log(data);
+  const orderRes = orderPromise(); // Promise
   return (
     <div>
-      <Suspense fallback={<p>Loading...</p>}>
-        <OrderCard orderRes={orderRes} SetOrderRes={SetOrderRes}></OrderCard>
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center h-[60vh]">
+            <PacmanLoader size={34} margin={2} color="#fcb700" />
+          </div>
+        }
+      >
+        <OrderCard orderRes={orderRes} />
       </Suspense>
     </div>
   );

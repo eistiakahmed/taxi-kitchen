@@ -3,7 +3,7 @@ import React from 'react';
 const Cook = ({ cook, handleServe }) => {
   return (
     <div
-      className="rounded-xl p-5 shadow hover:shadow-lg mb-5"
+      className="rounded-xl p-5 shadow hover:shadow-lg mb-5 border-1 border-amber-300"
       style={{
         background: "linear-gradient(#ffffff90, #FCB700), url('/cook-bg.gif')",
       }}

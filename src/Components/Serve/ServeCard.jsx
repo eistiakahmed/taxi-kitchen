@@ -3,7 +3,7 @@ const ServeCard = ({order }) => {
   
 
   return (
-    <div className="border rounded-xl p-5 shadow bg-green-50 hover:shadow-md transition">
+    <div className="border-2 border-green-700 rounded-xl p-5 shadow bg-green-50 hover:shadow-md transition mb-3">
       {/* Order Title */}
       <h3 className="text-xl font-bold text-green-700 mb-2">
         {order.order_title}
@@ -21,7 +21,7 @@ const ServeCard = ({order }) => {
 
       {/* Cooking Time */}
       <p className="text-gray-600 mt-2">
-        <span className="font-semibold">Cooking Time:</span> {order.cooked_At}
+        <span className="font-semibold">Cooking Time:</span> {order.cookedAt}
       </p>
     </div>
   );

@@ -3,80 +3,54 @@ import Card from './Card';
 import States from '../States/States';
 import Cooking from '../Cooking/Cooking';
 import ReadyToServe from '../Serve/ReadyToServe';
+import { toast } from 'react-toastify';
 
-const OrderCard = ({ orderRes,SetOrderRes }) => {
+const OrderCard = ({ orderRes }) => {
+  const data = use(orderRes);   // 🔥 Ay khane Promise resolve hobe
+  const [currOrder, SetCurrOrder] = useState(data);
   const [cooking, SetCooking] = useState([]);
   const [serve, SetServe] = useState([]);
 
-  // const handleCook = (order) => {
-  //   const newCook = [...cooking, order]
-  //   SetCooking(newCook)
-  // }
-
   const handleServe = (food) => {
-    const newServe = [...serve, food];
-    SetServe(newServe);
-    
-    const remaining = cooking.filter(item => item.id !== food.id)
-    SetCooking(remaining);
-
-    const remainingOrder = orderRes.filter(item => item.id !== food.id)
-    SetOrderRes(remainingOrder)
-    console.log(remainingOrder)
+    food.cookedAt = new Date(). toLocaleTimeString()
+    SetServe([...serve, food]);
+    toast.success("The food is ready")
+    SetCooking(cooking.filter((item) => item.id !== food.id));
+    SetCurrOrder(currOrder.filter((item) => item.id !== food.id));
   };
-
-  // console.log(serve);
 
   const handleOrder = (order) => {
 
-    const isExist = cooking.find(item=> item.id == order.id)
-
-    // console.log(isExist)
-
-    if(isExist){
-      alert("All ready Cooking...!!")
+    // toast("Order called")
+    if (cooking.find((item) => item.id === order.id)) {
+      toast.error('Order All ready on processing');
       return;
     }
-
-
-    const newCook = [...cooking, order];
-    SetCooking(newCook);
+    SetCooking([...cooking, order]);
   };
-  // console.log(cooking);
-  const orderJSON = use(orderRes);
-  // console.log(orderJSON);
+
   return (
     <>
-      <States
-        cooking={cooking}
-        orderTotal={orderJSON.length}
-        serve={serve}
-      ></States>
+      <States cooking={cooking} orderTotal={currOrder.length} serve={serve} />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <div className="lg:col-span-7">
-          <h2 className="text-4xl font-bold mb-2">Current Order</h2>
+          <h2 className="text-3xl font-bold mb-2">Current Order</h2>
           <div className="space-y-5">
-            {orderJSON.map((order) => (
-              <Card
-                key={order.id}
-                order={order}
-                SetCooking={SetCooking}
-                handleOrder={handleOrder}
-              ></Card>
+            {currOrder.map((order) => (
+              <Card key={order.id} order={order} handleOrder={handleOrder} />
             ))}
           </div>
         </div>
 
-        <div className="lg:col-span-5 ">
-          <h2 className="text-4xl font-bold mb-2">Currently Cooking</h2>
-          <div className="shadow p-10">
-            <Cooking cooking={cooking} handleServe={handleServe}></Cooking>
+        <div className="lg:col-span-5">
+          <h2 className="text-3xl font-bold mb-3">Currently Cooking</h2>
+          <div className="shadow p-10 rounded-4xl">
+            <Cooking cooking={cooking} handleServe={handleServe} />
           </div>
-          <h2 className="text-4xl font-bold mt-10">Ready to Serve</h2>
-          <div className="shadow p-10">
-            <ReadyToServe serve={serve}></ReadyToServe>
+          <h2 className="text-3xl font-bold mt-10 mb-3">Ready to Serve</h2>
+          <div className="shadow p-10 rounded-4xl">
+            <ReadyToServe serve={serve} />
           </div>
-          
         </div>
       </div>
     </>
